@@ -26,16 +26,11 @@ export default {
             yield put({ type: 'add', payload: payload.count });
         },
         *SET_LOGGED({ type, payload }, { put, call, select }) {
-            console.log(payload)
             setStore('tokenList', payload.tokenList);
-            setStore('refreshToken', payload.refreshToken);
-            setStore('expireIn', payload.expireIn);
-            setStore('clientId', payload.clientId);
             setStore('logged', true);
             yield put({ type: 'setLogged', payload })
         },
         *SET_USER({ type, payload }, { put, call, select }) {
-            console.log(payload)
             setStore('userInfo', payload);
             yield put({ type: 'setLogin', payload })
         }

@@ -7,10 +7,9 @@ import { Toast } from 'antd-mobile';
 import { history } from 'umi';
 
 const codeMessage: { [key: number]: string } = {
-  
   109: '密码或者账号错误',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
+  4010: '用户没有权限（令牌、用户名、密码错误）。',
   403: '用户得到授权，但是访问是被禁止的。',
   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
   406: '请求的格式不可得。',
@@ -30,7 +29,7 @@ const { signal } = controller;
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
-  console.log(response)
+  console.log(response);
   if (response && response.status) {
     if (response.status == 401 || response.status == 403) {
       controller.abort();
@@ -63,10 +62,9 @@ const request = extend({
 request.interceptors.request.use((url, options) => {
   const token = window.localStorage.getItem('ILUManageCloudtest_tokenList');
   const headers = <{ [key: string]: string }>{ ...options.headers };
-  console.log(url)
-  if (!url.startsWith('/api/auth/token') && !url.startsWith('/api/admin/auth/login') ) {
+  if (!(/login/.test(url) || /qrcode/.test(url))) {
     if (token) {
-      headers['Authorization'] = `bearer ${token}`;
+      headers['authorization'] = `Bearer ${token}`;
     }
   }
   return {
@@ -74,11 +72,4 @@ request.interceptors.request.use((url, options) => {
     signal,
   };
 });
-request.interceptors.response.use((response:any) => {
-  console.log(response)
-  if(codeMessage[response.code]){
-    Toast.fail(codeMessage[response.code]);
-  }
-  return response;
-})
 export default request;

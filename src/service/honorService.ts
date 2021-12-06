@@ -8,3 +8,12 @@ export async function getTeamHonor(data:any) {
         requestType: 'form' 
     })
 }
+
+export async function getSongSheet(data:any) {
+    return request('/api/users/getUser',{
+        method: 'get',
+        params: data,
+        requestType: 'form' 
+    })
+  }
+  

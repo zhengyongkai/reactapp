@@ -9,7 +9,7 @@ import u9 from '@/assets/u9.svg';
 import u10 from '@/assets/pic_u81-0.svg';
 import styles from './less/user.less'
 import commonStyle from './less/common.less'
-import { getTeamHonor } from '@/service/honorService'
+import { getTeamHonor , getSongSheet } from '@/service/honorService'
 import { checkResponse } from '@/utils/common'
 import { CloseCircleOutline } from 'antd-mobile-icons'
 import {
@@ -127,7 +127,7 @@ const IndexPage: React.FC = (props: any) => {
                 active ? <MessageFill /> : <MessageOutline />,
         },
         {
-            key: 'personalCenter',
+            key: 'my',
             title: '个人中心',
             icon: <UserOutline />,
         },
@@ -157,38 +157,13 @@ const IndexPage: React.FC = (props: any) => {
                 page: pagination.pagination.page += 1
             }
         })
-        await getData()
+        // await getData()
     }
     function getData() {
-        return getTeamHonor(pagination.pagination).then(res => {
-            if (checkResponse(res)) {
-                var data = res.data && res.data.list.map((value: any) =>
-                (
-                    <List.Item key={value.id}>
-                        <div className={styles['dataContent']} >
-                            <div id="img"><img src={u10}></img></div>
-                            <div className={styles['rightContent']}>
-                                <div>{value.bc}地区工会</div>
-                                <div className={styles['bottomContent']}>
-                                    <div>{value.awardunit}</div>
-                                    <div>2020-06-12</div>
-                                </div>
-                            </div>
-                        </div>
-                    </List.Item>
-                ))
-                setState({
-                    ...pagination, pagination: {
-                        page: res.data.page,
-                        pages: res.data.pages,
-                        limit: 10,
-                        hasMore: res.data.page < res.data.pages
-                    }
-                })
-                setList(listData.concat(data))
+        return getSongSheet({}).then(()=>{
 
-            }
         })
+        
     }
     const colors = [u5, u6, u7, u8, u9]
     const items = colors.map((color, index) => (
@@ -223,27 +198,25 @@ const IndexPage: React.FC = (props: any) => {
         </Grid.Item>
     ))
     function routerChange(data:any){
-        if(data === 'personalCenter'){
-            history.push('/my')
-        }
+            history.push('/'+data)
     }
     return (
         <div>
             <NavBar style={{ position: 'fixed', top: 0, left: 0, right: 0 }}>昆山工会</NavBar>
             <div style={{ position: 'absolute', top: 46, bottom: 50, left: 0, right: 0, padding: "0 10px", overflow: 'hidden', overflowY: 'auto' }}>
                 <Swiper >{items}</Swiper>
-                <Grid columns={3} >
+                <Grid columns={3} style={{backgroundColor:'#fff'}}>
                     {gridItem}
                 </Grid>
                 {/* 职工教育 */}
-                <div className={styles['user-title']}>
+                {/* <div className={styles['user-title']}>
                     <div>工会活动</div>
                     <div><a href='#'>查看全部</a></div>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <List>{listData}</List>
                 </div>
-                <InfiniteScroll loadMore={loadMore} hasMore={pagination.pagination.hasMore} />
+                <InfiniteScroll loadMore={loadMore} hasMore={pagination.pagination.hasMore} /> */}
             </div>
 
             <TabBar style={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} onChange={routerChange.bind(this)}>
