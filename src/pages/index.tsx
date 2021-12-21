@@ -40,7 +40,6 @@ const IndexPage: React.FC = (props: any) => {
       },
     );
   }
-
   return (
     <div>
       
