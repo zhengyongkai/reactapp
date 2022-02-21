@@ -29,21 +29,11 @@ const { signal } = controller;
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
-  console.log(response);
   if (response && response.status) {
-    if (response.status == 401 || response.status == 403) {
-      controller.abort();
-      window.sessionStorage.removeItem('token');
-      // 多个请求同时发送时，可能页面已经跳转到 auth 页面
-      if (history.location.pathname !== '/auth') {
-        window.localStorage.setItem(
-          'redirect',
-          `${history.location.pathname}${history.location.search}`,
-        );
-      }
-      history.push(`/login`);
-    }
-    const { status, url } = response;
+    const errortext: string =
+      codeMessage[response.status] || response.statusText;
+    Toast.fail(errortext, 1);
+    throw error;
   } else if (!response) {
     Toast.fail('网络异常', 1);
   }
@@ -59,12 +49,36 @@ const request = extend({
   prefix: process.env.path, //Path为config中定义的变量
 });
 
+request.interceptors.response.use(async (response: any) => {
+  if (response && response.status) {
+    const res = await response.clone().json();
+    const { code, msg } = res;
+    if (code == 401 || code == 403) {
+      window.sessionStorage.removeItem('token');
+      // 多个请求同时发送时，可能页面已经跳转到 auth 页面
+      if (history.location.pathname !== '/auth') {
+        window.localStorage.setItem(
+          'redirect',
+          `${history.location.pathname}${history.location.search}`,
+        );
+      }
+      history.push(`/login`);
+    }
+    if (code == 500) {
+      Toast.show(msg, 1);
+    }
+  } else if (!response) {
+    Toast.fail('网络异常', 1);
+  }
+  return response;
+});
+
 request.interceptors.request.use((url, options) => {
   const token = window.localStorage.getItem('ILUManageCloudtest_tokenList');
   const headers = <{ [key: string]: string }>{ ...options.headers };
   if (!(/login/.test(url) || /qrcode/.test(url))) {
     if (token) {
-      headers['authorization'] = `Bearer ${token}`;
+      headers['authorization'] = `${token}`;
     }
   }
   return {

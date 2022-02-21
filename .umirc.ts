@@ -6,17 +6,14 @@ export default defineConfig({
   },
   routes: [
     { path: '/', redirect: '/main' },
-    { path: '/user', component: '@/pages/user' },
-    { path: '/my', component: '@/pages/my' },
-    { path: '/message', component: '@/pages/message' },
-    { path: '/login', component: '@/pages/index' },
     { path: '/main', component: '@/pages/main' },
+    { path: '/login', component: '@/pages/Login/Login' },
   ],
   fastRefresh: {},
   proxy: {
     '/api': {
-      target: 'http://localhost:7002/',
-      pathRewrite: { '^/api': 'http://localhost:7002/' },
+      target: 'http://localhost:7001/',
+      pathRewrite: { '^/api': 'http://localhost:7001/' },
       changeOrigin: true,
     },
   },
