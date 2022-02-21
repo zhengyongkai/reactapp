@@ -5,9 +5,17 @@ export default defineConfig({
     type: 'none',
   },
   routes: [
-    { path: '/', redirect: '/main' },
-    { path: '/main', component: '@/pages/main' },
+    // { path: '/', redirect: '/main' },
+    // { path: '/main', component: '@/pages/Main/main' },
     { path: '/login', component: '@/pages/Login/Login' },
+    {
+      path: '/',
+      component: '@/pages/Layout/Index', // layouts页面
+      routes: [
+        // { path: '/home', component: '@/pages/home' }, // 首页
+        { path: '/main', component: '@/pages/Main/main' },
+      ],
+    },
   ],
   fastRefresh: {},
   proxy: {

@@ -44,7 +44,7 @@ const IndexPage: React.FC = (props: any) => {
         content: '登陆成功 ' + res.data.username,
         position: 'top',
       });
-      history.replace('/user');
+      history.replace('/main');
     });
   }
 
