@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Badge, TabBar } from 'antd-mobile-v5';
 import {
   AppOutline,
-  MessageOutline,
-  MessageFill,
-  UnorderedListOutline,
   UserOutline,
+  HeartOutline,
+  ShopbagOutline,
 } from 'antd-mobile-icons';
 // import s from './../../index.less'  // 定位到底部样式
 import { history } from 'umi';
@@ -17,16 +16,28 @@ const TabBarComponent: React.FC = (props: any) => {
 
   const tabs = [
     {
-      key: 'home',
+      key: 'main',
       title: '首页',
       icon: <AppOutline />,
-      link: '/home',
+      link: '/main/homePage',
     },
     {
-      key: 'main',
-      title: '个人中心',
+      key: 'love',
+      title: '关注',
+      icon: <HeartOutline />,
+      link: '/main/mainPage',
+    },
+    {
+      key: 'shop',
+      title: '商城',
+      icon: <ShopbagOutline />,
+      link: '/main/mainPage',
+    },
+    {
+      key: 'mine',
+      title: '我的',
       icon: <UserOutline />,
-      link: '/main',
+      link: '/main/mainPage',
     },
   ];
   const InfoActiveKey = (e: string) => {
