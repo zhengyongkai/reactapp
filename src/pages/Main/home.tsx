@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TabBar } from 'antd-mobile-v5';
+import { Tabs } from 'antd-mobile-v5';
 import { connect } from 'dva';
 import { renderRoutes } from 'react-router-config';
 import { NavLink } from 'react-router-dom';

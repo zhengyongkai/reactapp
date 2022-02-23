@@ -5,7 +5,7 @@ export default defineConfig({
     type: 'none',
   },
   routes: [
-    { path: '/', redirect: '/main/homePage' },
+    { path: '/', redirect: '/main/homePage/tuijian' },
     { path: '/login', component: '@/pages/Login/Login' },
     {
       path: '/main',
