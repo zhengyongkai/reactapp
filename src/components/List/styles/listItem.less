@@ -1,0 +1,43 @@
+.listitem {
+  padding: 10px 10px;
+  background-color: #fff;
+  .title {
+    font-size: 18px;
+    font-weight: 550;
+  }
+  .manInfo {
+    display: flex;
+    align-items: center;
+    > :first-child {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+    > :nth-child(2) {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    > :last-child {
+      font-size: 16px;
+      color: #666;
+    }
+  }
+  .textcontent {
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .bottom {
+    color: #666;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    div {
+      margin-right: 5px;
+    }
+  }
+}
