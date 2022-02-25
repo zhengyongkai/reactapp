@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from './css/recommend.less';
 import Scroll from '@/components/scroll/scroll';
 import ListItem from '@/components/List/listItem';
+import { AppstoreOutline } from 'antd-mobile-icons';
 function mapStateToProps(state: any) {
   const { userInfo } = state.user; // test就是models命名空间名字
   return {
@@ -100,10 +101,14 @@ const MainPage: React.FC = (props: any) => {
   };
   return (
     <>
-      <div style={{ marginBottom: 10 }} className={styles.bg}>
+      <div
+        style={{ marginBottom: 10, position: 'relative' }}
+        className={styles.bg}
+      >
         <Tabs
           style={{
             '--title-font-size': '14px',
+            marginRight: '40px',
           }}
         >
           <Tabs.Tab title="全站" key="fruits" />
@@ -111,7 +116,23 @@ const MainPage: React.FC = (props: any) => {
           <Tabs.Tab title="体育" key="sport" />
           <Tabs.Tab title="生活" key="live" />
           <Tabs.Tab title="前端" key="fontend" />
+          <Tabs.Tab title="后端" key="backend" />
+          <Tabs.Tab title="知识" key="know" />
         </Tabs>
+        {/* 添加一个设置标签 */}
+        <div
+          style={{
+            position: 'absolute',
+            boxSizing: 'border-box',
+            top: '0',
+            right: '0',
+            padding: '0 12px',
+            bottom: 0,
+            lineHeight: '40px',
+          }}
+        >
+          <AppstoreOutline></AppstoreOutline>
+        </div>
       </div>
       <div
         style={{
