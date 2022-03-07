@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import BScroll from 'better-scroll';
-// import './index.less';
+import styles from './style/scroll.less';
 
 const Scroll = forwardRef((props: any, ref: any) => {
   const [bScroll, setBScroll] = useState<any>();
@@ -50,7 +50,6 @@ const Scroll = forwardRef((props: any, ref: any) => {
       },
     });
     setBScroll(scroll);
-    console.log(scroll);
     return () => {
       setBScroll(null);
     };
@@ -70,7 +69,7 @@ const Scroll = forwardRef((props: any, ref: any) => {
     if (!bScroll || !pullUp) return;
     const handlePullUp = () => {
       //判断是否滑动到了底部
-      if (bScroll.y <= bScroll.maxScrollY + 100) {
+      if (bScroll.y <= bScroll.maxScrollY + 100 && !pullUpLoading) {
         pullUpDebounce();
       }
     };
@@ -131,12 +130,18 @@ const Scroll = forwardRef((props: any, ref: any) => {
     >
       {props.children}
       {/* 滑到底部加载动画 */}
-      <div className="pull_up_loading" style={PullUpdisplayStyle}>
-        加载中
+      <div className={styles.pull_down_loading} style={PullUpdisplayStyle}>
+        <div className={styles.loading}>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
       {/* 顶部下拉刷新动画 */}
-      <div className="pull_down_loading" style={PullDowndisplayStyle}>
-        加载中
+      <div className={styles.pull_up_loading} style={PullDowndisplayStyle}>
+        加载中...
       </div>
     </div>
   );

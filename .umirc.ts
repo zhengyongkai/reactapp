@@ -4,6 +4,8 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  hash: true,
+  history: { type: 'hash' },
   routes: [
     { path: '/', redirect: '/main/homePage/tuijian' },
     { path: '/login', component: '@/pages/Login/Login' },
@@ -30,8 +32,8 @@ export default defineConfig({
   fastRefresh: {},
   proxy: {
     '/api': {
-      target: 'http://localhost:7001/',
-      pathRewrite: { '^/api': 'http://localhost:7001/' },
+      target: 'https://www.fastmock.site/',
+      pathRewrite: { '^/api': 'https://www.fastmock.site/' },
       changeOrigin: true,
     },
   },

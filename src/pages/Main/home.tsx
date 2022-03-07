@@ -7,18 +7,26 @@ import s from './css/home.less';
 import { history } from 'umi';
 import { BellOutline, SearchOutline } from 'antd-mobile-icons';
 function mapStateToProps(state: any) {
-  const { userInfo } = state.user; // test就是models命名空间名字
+  const { maskHomeVisable } = state.mask; // test就是models命名空间名字
   return {
-    userInfo,
+    maskHomeVisable,
   };
 }
 const HomePage: React.FC = (props: any) => {
   const { route } = props;
-  const [activeKey, setActiveKey] = useState(0);
+  const [activeKey, setActiveKey] = useState(1);
   const activeChange = (e: number, link: string) => {
     setActiveKey(e);
     history.replace('/main/homePage/' + link);
   };
+  // const setVisable = (value:boolean) => {
+  //   props.dispatch({
+  //     type: 'mask/SET_HOME_VISABLE', // 这里就会触发models层里面effects中fetchNum方法（也可以直接触发reducer中方法，看具体情况） ,test就是models里的命名空间名字
+  //     payload: {
+  //       value,
+  //     },
+  //   });
+  // }
   return (
     <>
       <div className={s.home}>

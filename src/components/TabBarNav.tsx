@@ -19,7 +19,7 @@ const TabBarComponent: React.FC = (props: any) => {
       key: 'main',
       title: '首页',
       icon: <AppOutline />,
-      link: '/main/homePage',
+      link: '/main/homePage/tuijian',
     },
     {
       key: 'love',

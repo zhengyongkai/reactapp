@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Tabs } from 'antd-mobile-v5';
+import { Tabs, Mask, Popup } from 'antd-mobile-v5';
 import { connect } from 'dva';
 import styles from './css/recommend.less';
 import Scroll from '@/components/scroll/scroll';
 import ListItem from '@/components/List/listItem';
-import { AppstoreOutline } from 'antd-mobile-icons';
+import { getSelList } from './Service/main';
+import { AppstoreOutline, CloseCircleOutline } from 'antd-mobile-icons';
+import { checkResponse } from '@/utils/common';
 function mapStateToProps(state: any) {
   const { userInfo } = state.user; // test就是models命名空间名字
   return {
@@ -13,74 +15,67 @@ function mapStateToProps(state: any) {
 }
 
 const MainPage: React.FC = (props: any) => {
+  interface IList {
+    title: string;
+    content: string;
+    agree: string;
+    comment: string;
+    user: {
+      img: string;
+      name: string;
+      work: string;
+    };
+  }
+  interface IResult {
+    data: {
+      limit: number;
+      page: number;
+      total: number;
+      pages: number;
+      list: Array<never>;
+    };
+  }
   const scrollRef = useRef(null);
-
-  const data = [
-    {
-      title: '银行为什么要求所有应聘的应届生从柜台做起？',
-      user: {
-        name: '知乎官方',
-        img: 'https://picsum.photos/200/300',
-        work: '银行从业者',
-      },
-      content:
-        '不是因为必须去基层锻炼，原因有三，第一：必须增加自主能力，懂得如何讨好领导，第二：懂得一些叫有道理，第三：深知职场之道，才能更好的发展',
-      agree: 100,
-      comment: 5,
-    },
-    {
-      title: '银行为什么要求所有应聘的应届生从柜台做起？',
-      user: {
-        name: '知乎官方',
-        img: 'https://picsum.photos/200/300',
-        work: '银行从业者',
-      },
-      content:
-        '不是因为必须去基层锻炼，原因有三，第一：必须增加自主能力，懂得如何讨好领导，第二：懂得一些叫有道理，第三：深知职场之道，才能更好的发展',
-      agree: 100,
-      comment: 5,
-    },
-    {
-      title: '银行为什么要求所有应聘的应届生从柜台做起？',
-      user: {
-        name: '知乎官方',
-        img: 'https://picsum.photos/200/600',
-        work: '银行从业者',
-      },
-      content:
-        '不是因为必须去基层锻炼，原因有三，第一：必须增加自主能力，懂得如何讨好领导，第二：懂得一些叫有道理，第三：深知职场之道，才能更好的发展',
-      agree: 100,
-      comment: 5,
-    },
-    {
-      title: '银行为什么要求所有应聘的应届生从柜台做起？',
-      user: {
-        name: '知乎官方',
-        img: 'https://picsum.photos/200/100',
-        work: '银行从业者',
-      },
-      content:
-        '不是因为必须去基层锻炼，原因有三，第一：必须增加自主能力，懂得如何讨好领导，第二：懂得一些叫有道理，第三：深知职场之道，才能更好的发展',
-      agree: 100,
-      comment: 5,
-    },
-  ];
-  const [datas, setData] = useState(data);
+  const [datas, setData] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [dataStatus, setDataStatus] = useState({
+    end: false,
+    page: 1,
+    limit: 10,
+  });
   const [pullUpLoading, setPullUpLoading] = useState(false);
   const handlePullUp = () => {
     setPullUpLoading(true);
-    setTimeout(() => {
-      setData([...datas, ...data]);
-      setPullUpLoading(false);
-    }, 2000);
+    if (dataStatus.end) {
+      getSel(
+        {
+          ...dataStatus,
+          page: Number(dataStatus.page) + 1,
+        },
+        () => {
+          setPullUpLoading(false);
+        },
+      );
+    } else {
+      console.log('已经没有数据');
+    }
   };
   const handlePullDown = () => {
-    console.log('down');
+    // props.dispatch({
+    //   type: 'mask/SET_HOME_VISABLE', // 这里就会触发models层里面effects中fetchNum方法（也可以直接触发reducer中方法，看具体情况） ,test就是models里的命名空间名字
+    //   payload: {
+    //     value:true,
+    //   },
+    // });
+  };
+  const changeTab = (res: string) => {
+    // setData([])
+    // getSel({})
   };
   const renderData = () => {
     return (
       <>
-        {datas.map((res, key) => {
+        {datas.map((res: IList, key) => {
           return (
             <div style={{ marginBottom: 10 }}>
               <ListItem
@@ -99,6 +94,22 @@ const MainPage: React.FC = (props: any) => {
       </>
     );
   };
+  const getSel = (obj: object, func: Function) => {
+    getSelList(obj).then((res: IResult) => {
+      if (checkResponse(res)) {
+        setData([...datas, ...res.data.list]);
+        setDataStatus({
+          end: res.data.page > res.data.pages ? false : true,
+          limit: res.data.limit,
+          page: res.data.page,
+        });
+        func && func();
+      }
+    });
+  };
+  useEffect(() => {
+    getSel(dataStatus, () => {});
+  }, []);
   return (
     <>
       <div
@@ -109,6 +120,9 @@ const MainPage: React.FC = (props: any) => {
           style={{
             '--title-font-size': '14px',
             marginRight: '40px',
+          }}
+          onChange={(res) => {
+            changeTab(res);
           }}
         >
           <Tabs.Tab title="全站" key="fruits" />
@@ -131,13 +145,17 @@ const MainPage: React.FC = (props: any) => {
             lineHeight: '40px',
           }}
         >
-          <AppstoreOutline></AppstoreOutline>
+          <AppstoreOutline
+            onClick={() => {
+              setVisible(true);
+            }}
+          ></AppstoreOutline>
         </div>
       </div>
       <div
         style={{
           position: 'fixed',
-          top: 100,
+          top: 90,
           bottom: 60,
           left: 0,
           right: 0,
@@ -153,6 +171,31 @@ const MainPage: React.FC = (props: any) => {
           <div>{renderData()}</div>
         </Scroll>
       </div>
+      <Popup
+        visible={visible}
+        onMaskClick={() => {
+          setVisible(false);
+        }}
+        bodyStyle={{
+          height: '90vh',
+          borderTopLeftRadius: '8px',
+          borderTopRightRadius: '8px',
+          padding: '16px',
+        }}
+      >
+        <div className={styles.mask}>
+          <div className={styles.title}>
+            <div>全部板块</div>
+            <div>
+              <CloseCircleOutline
+                onClick={() => {
+                  setVisible(false);
+                }}
+              ></CloseCircleOutline>
+            </div>
+          </div>
+        </div>
+      </Popup>
     </>
   );
 };

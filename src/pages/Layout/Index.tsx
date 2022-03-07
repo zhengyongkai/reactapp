@@ -12,8 +12,9 @@ const ULR_NO_LAYOUT = [
 
 class Index extends Component {
   renderBody = () => {
+    console.log(location.hash.substring(1));
     const { children } = this.props;
-    if (ULR_NO_LAYOUT.includes(location.pathname)) {
+    if (ULR_NO_LAYOUT.includes(location.hash.substring(1))) {
       // 需要tabbar的页面
       return <TabBar {...this.props} />;
     }
