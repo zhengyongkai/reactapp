@@ -1,4 +1,5 @@
-.listitem {
+.listitem,
+.listitem_t {
   padding: 10px 10px;
   background-color: #fff;
   .title {
@@ -17,9 +18,13 @@
     > :nth-child(2) {
       font-size: 16px;
       margin-right: 10px;
+      height: 24px;
+      line-height: 28px;
     }
     > :last-child {
-      font-size: 16px;
+      font-size: 15px;
+      height: 24px;
+      line-height: 28px;
       color: #666;
     }
   }
@@ -28,7 +33,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
   .bottom {
@@ -38,6 +43,52 @@
     align-items: center;
     div {
       margin-right: 5px;
+    }
+  }
+}
+.listitem_t {
+  position: relative;
+  .flexcontent {
+    margin-top: 5px;
+    display: flex;
+    overflow: hidden;
+    :first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      word-break: break-all;
+      width: 100%;
+    }
+  }
+  .imgContent {
+    float: none;
+    width: 100%;
+    height: 0;
+    padding: 21% 0;
+    position: relative;
+    margin: 10px 0 0px !important;
+    .text_type_img {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      overflow: hidden;
+      :first-child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 100%;
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+      }
     }
   }
 }

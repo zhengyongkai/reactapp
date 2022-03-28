@@ -5,7 +5,11 @@
 import { extend } from 'umi-request';
 import { Toast } from 'antd-mobile';
 import { history } from 'umi';
-
+import { getParamsNotNull } from '@/utils/common';
+const api =
+  process.env.NODE_ENV === 'developments'
+    ? '/api'
+    : 'http://134.175.103.137:7001';
 const codeMessage: { [key: number]: string } = {
   109: '密码或者账号错误',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
@@ -45,7 +49,7 @@ const errorHandler = (error: { response: Response }): Response => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
+  // credentials: 'include', // 默认请求是否带上cookie
   prefix: process.env.path, //Path为config中定义的变量
 });
 
@@ -67,6 +71,9 @@ request.interceptors.response.use(async (response: any) => {
     if (code == 500) {
       Toast.show(msg, 1);
     }
+    if (code == 404) {
+      return Toast.show('链接不到服务器', 1);
+    }
   } else if (!response) {
     Toast.fail('网络异常', 1);
   }
@@ -81,7 +88,11 @@ request.interceptors.request.use((url, options) => {
       headers['authorization'] = `${token}`;
     }
   }
+  if (options.method === 'get') {
+    options.params = getParamsNotNull(options.params);
+  }
   return {
+    url: api + options.url,
     options: { ...options, headers: headers },
     signal,
   };

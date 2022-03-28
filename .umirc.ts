@@ -19,7 +19,7 @@ export default defineConfig({
           routes: [
             {
               path: '/main/homePage/tuijian',
-              component: '@/pages/Main/Recommend',
+              component: '@/pages/Main/Index',
             },
             { path: '/main/homePage/video', component: '@/pages/Main/Video' },
             { path: '/main/homePage/hot', component: '@/pages/Main/Hot' },
@@ -32,8 +32,8 @@ export default defineConfig({
   fastRefresh: {},
   proxy: {
     '/api': {
-      target: 'https://www.fastmock.site/',
-      pathRewrite: { '^/api': 'https://www.fastmock.site/' },
+      target: 'http://localhost:7001/',
+      pathRewrite: { '^/api': '' },
       changeOrigin: true,
     },
   },

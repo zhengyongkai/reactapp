@@ -31,6 +31,7 @@ const IndexPage: React.FC = (props: any) => {
   }
   async function getUserInfoInfo(props: any) {
     getUserInfo().then((res) => {
+      console.log(checkResponse(res));
       if (!checkResponse(res)) {
         return false;
       }
@@ -44,7 +45,7 @@ const IndexPage: React.FC = (props: any) => {
         content: '登陆成功 ' + res.data.username,
         position: 'top',
       });
-      history.replace('/main');
+      history.replace('/main/homePage/tuijian');
     });
   }
 
