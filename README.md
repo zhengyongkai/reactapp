@@ -13,3 +13,8 @@ Start the dev server,
 ```bash
 $ yarn start
 ```
+
+- [ ] initiate  
+- [ ] participate  
+- [ ] redeem  
+- [ ] refund  
