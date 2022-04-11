@@ -4,6 +4,8 @@ import { connect } from 'dva';
 import { login, getUserInfo } from './Service/Login';
 import { history } from 'umi';
 import { checkResponse } from '@/utils/common';
+import bgimg from '@/assets/img/loginBg.jpeg';
+import globalcss from '@/common/css/global.less';
 function mapStateToProps(state: any) {
   return {};
 }
@@ -50,9 +52,14 @@ const IndexPage: React.FC = (props: any) => {
   }
 
   return (
-    <div>
+    <div
+      className={globalcss.position_fixed}
+      style={{ backgroundImage: `url(${bgimg})` }}
+    >
       <div style={{ marginTop: 120, padding: '0 20px', textAlign: 'center' }}>
-        <p style={{ marginBottom: 20, fontSize: 24 }}>欢迎登陆我的南京</p>
+        <p style={{ marginBottom: 20, fontSize: 24, color: '#fff' }}>
+          欢迎登陆我的论坛
+        </p>
         <Form
           onFinish={submit}
           footer={
@@ -60,7 +67,7 @@ const IndexPage: React.FC = (props: any) => {
               block
               type="submit"
               color="primary"
-              style={{ height: 40, marginTop: 30 }}
+              style={{ height: '40px', marginTop: 30 }}
             >
               登陆
             </Button>

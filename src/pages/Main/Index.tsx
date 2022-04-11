@@ -109,7 +109,6 @@ const MainPage: React.FC = (props: any) => {
       </>
     );
   };
-
   const getType = async () => {
     await getTypeList({ limit: 99999 }).then((res) => {
       if (checkResponse(res)) {
