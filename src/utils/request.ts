@@ -9,7 +9,7 @@ import { getParamsNotNull } from '@/utils/common';
 const api =
   process.env.NODE_ENV === 'developments'
     ? '/api'
-    : 'http://134.175.103.137:7001';
+    : '服务器地址';
 const codeMessage: { [key: number]: string } = {
   109: '密码或者账号错误',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
